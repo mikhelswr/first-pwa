@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Soccer</title>
+    <meta charset="UTF-8" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/materialize.min.css" />
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="icon.png">
+</head>
+
+<body>
+    <!-- Navigasi -->
+    <nav class="grey darken-4" role="navigation">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo center" id="logo-container">Soccer</a>
+            <a href="/"><i class="material-icons">keyboard_backspace</i></a>
+        </div>
+    </nav>
+    <!-- Akhir Navigasi -->
+
+    <div class="container card center" style="margin: 30px auto; padding: 15px;">
+        <div id="head"></div>
+        <div class="squad" style="margin: 20px;">
+            <h4>Squad</h4>
+            <table class="striped responsive-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Country of Birth</th>
+                        <th>Nationality</th>
+                        <th>Position</th>
+                    </tr>
+                </thead>
+                <tbody id="squad"></tbody>
+            </table>
+        </div>
+        <div id="contact" class="card" style="padding: 20px;"></div>
+    </div>
+
+    <div class="container" id="body-content"></div>
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red" id="save">
+            <i class="large material-icons">save</i>
+        </a>
+    </div>
+
+    <script src="js/materialize.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/idb.js"></script>
+    <script src="js/db.js"></script>
+    <script>
+        // REGISTER SERVICE WORKER
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", function () {
+                navigator.serviceWorker
+                    .register("/sw.js")
+                    .then(function () {
+                        console.log("Pendaftaran ServiceWorker berhasil");
+                    })
+                    .catch(function () {
+                        console.log("Pendaftaran ServiceWorker gagal");
+                    });
+            });
+        } else {
+            console.log("ServiceWorker belum didukung browser ini.");
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const isFromSaved = urlParams.get("saved");
+            const btnSave = document.getElementById("save");
+            if (isFromSaved) {
+                btnSave.style.display = 'none';
+                getSavedTeamById();
+            } else {
+                var item = getTeamById();
+            }
+            btnSave.addEventListener('click', () => {
+                console.log("Tombol FAB di klik.");
+                item.then(function (article) {
+                    saveForLater(article);
+                });
+                btnSave.style.display = 'none';
+            })
+        });
+    </script>
+</body>
+
+</html>

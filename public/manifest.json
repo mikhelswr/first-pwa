@@ -1,0 +1,15 @@
+{
+    "name": "Soccer",
+    "short_name": "Soccer",
+    "description": "Aplikasi Soccer",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#21252B",
+    "theme_color": "#21252B",
+    "icons": [{
+        "src": "/icon.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }],
+    "gcm_sender_id": "512046625181"
+}
